@@ -45,12 +45,10 @@ public class Records {
     List<Integer> aggregatesNetworkTraffic(int threshold, int maxInterval) {
         List<Integer> periods = new ArrayList<Integer>();
         int startTime = 0;
-        //int startPeriod = 1;
         int sum = 0;
         for (int currentTime = 0; currentTime < records.size(); currentTime++) {
             if (records.get(currentTime).getDataAmount() > threshold) {
                 if (currentTime - startTime >= maxInterval) {
-                    //startPeriod++;
                     startTime = currentTime;
                     periods.add(sum);
                     sum = records.get(currentTime).getDataAmount();
