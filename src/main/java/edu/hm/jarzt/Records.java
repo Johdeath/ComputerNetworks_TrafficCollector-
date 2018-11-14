@@ -7,9 +7,10 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Records {
-    private List<Record> records = new ArrayList<Record>();
+    private List<Record> records = new ArrayList<>();
 
     public Records(List<Record> records) {
         this.records = records;
@@ -43,6 +44,17 @@ public class Records {
     }
 
     List<Integer> aggregatesNetworkTraffic(int threshold, int maxInterval) {
+
+        MyConsumer consumer =records.stream()
+                .map(Record::getDataAmount)
+                .collect(() -> new MyConsumer(maxInterval,threshold),MyConsumer::accept,MyConsumer::combine);
+        return consumer.toList();
+    }
+}
+
+
+/*
+List<Integer> aggregatesNetworkTraffic(int threshold, int maxInterval) {
         List<Integer> periods = new ArrayList<Integer>();
         int startTime = 0;
         int sum = 0;
@@ -60,4 +72,4 @@ public class Records {
         periods.add(sum);
         return periods;
     }
-}
+ */
