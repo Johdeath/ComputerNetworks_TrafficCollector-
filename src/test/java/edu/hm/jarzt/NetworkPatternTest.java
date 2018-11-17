@@ -99,4 +99,53 @@ class NetworkPatternTest {
                 .hasSize(10)
                 .containsExactly(34354L, 27808L, 226974L, 241565L, 180024L, 143101L, 211129L, 124263L, 274893L, 194189L);
     }
+
+
+    @Test
+    void generateFingerprintTest() {
+        List<Long> listA = new ArrayList<>();
+
+        listA.add(7L);
+        listA.add(2L);
+        listA.add(3L);
+        listA.add(5L);
+
+
+        List<Double> listR = Utils.differential(listA);
+
+        assertThat(listR)
+                .hasSize(4);
+
+        assertThat(Math.abs(listR.get(0) - 0.0) <= TOLERANCE).isTrue();
+        assertThat(Math.abs(listR.get(1) - (-0.7142857142857143)) <= TOLERANCE).isTrue();
+        assertThat(Math.abs(listR.get(2) - 0.5) <= TOLERANCE).isTrue();
+        assertThat(Math.abs(listR.get(3) - 0.6666666666666667) <= TOLERANCE).isTrue();
+
+        List<Long> listResult = Utils.generateFingerprint(listA,2);
+
+        assertThat(listResult).hasSize(2).containsExactly(9L, 8L);
+
+        List<Double> listDiff = Utils.differential(listResult);
+
+        assertThat(listDiff).hasSize(2);
+
+        assertThat(Math.abs(listDiff.get(0) - 0.0) <= TOLERANCE).isTrue();
+        assertThat(Math.abs(listDiff.get(1) - (-0.1111111111111111)) <= TOLERANCE).isTrue();
+
+        List<Double> normalizedFingerprint = Utils.normalize(listDiff);
+
+        assertThat(normalizedFingerprint).hasSize(2);
+
+        assertThat(Math.abs(normalizedFingerprint.get(0) - 0.5) <= TOLERANCE).isTrue();
+        assertThat(Math.abs(normalizedFingerprint.get(1) - (0.4722507650)) <= TOLERANCE).isTrue();
+
+
+
+
+
+
+
+
+
+    }
 }

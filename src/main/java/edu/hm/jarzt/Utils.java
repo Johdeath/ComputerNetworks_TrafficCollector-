@@ -31,9 +31,25 @@ public class Utils {
                 .collect(Collectors.toList());
     }
 
-    public static List<Double> generateFingerprint(List<Long> list) {
+    public static List<Long> generateFingerprint(List<Long> list, int segmentLength) {
 
+        List<Double> listR = Utils.differential(list);
+        List<Long> listResult = new ArrayList<>();
 
-        return null;
+        //Todo perhaps cut the value (listR.size()/segmentLength) ends with trouble
+        for(int i = 1; i<=listR.size()/segmentLength; i++) {
+            double sum=0;
+            for (int j = 1; j <= segmentLength; j++) { //sum
+                int k = 1;
+                double prod = 1;
+                while (k <= (i - 1)*segmentLength+j) { //product
+                    prod *= (listR.get(k-1)+1);
+                    k++;
+                }
+                sum+=prod;
+            }
+            listResult.add((long)(sum*list.get(0)));
+        }
+        return listResult;
     }
 }
