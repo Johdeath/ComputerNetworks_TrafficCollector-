@@ -2,9 +2,9 @@ package edu.hm.jarzt;
 
 public class Record {
     private int time;
-    private int dataAmount;
+    private long dataAmount;
 
-     Record(int time, int dataAmount) {
+     Record(int time, long dataAmount) {
         this.time = time;
         this.dataAmount = dataAmount;
     }
@@ -17,7 +17,7 @@ public class Record {
         this.time = time;
     }
 
-     int getDataAmount() {
+     long getDataAmount() {
         return dataAmount;
     }
 

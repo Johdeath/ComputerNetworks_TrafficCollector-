@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class Utils {
 
-    public static List<Double> differential(List<Integer> list) {
+    public static List<Double> differential(List<Long> list) {
         List<Double> diffList = new ArrayList<>();
         diffList.add(0.0);
 
@@ -20,19 +20,20 @@ public class Utils {
         return diffList;
     }
 
+
     public static List<Double> normalize(List<Double> list) {
         return list.stream().map(n -> (1 / (1 + Math.exp(-n)))).collect(Collectors.toList());
     }
 
     public static List<Long> getFileSizeInBytes(List<String> files) {
+        return files.stream().map(n -> new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator + n)
+                .length())
+                .collect(Collectors.toList());
+    }
 
-        List<Long> filesSizes = new ArrayList<>();
+    public static List<Double> generateFingerprint(List<Long> list) {
 
 
-        filesSizes = files.stream().map(n -> {
-            return new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator + n).length();
-        }).collect(Collectors.toList());
-
-        return filesSizes;
+        return null;
     }
 }

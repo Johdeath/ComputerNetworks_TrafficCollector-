@@ -13,7 +13,7 @@ public class Main {
         File file = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "trafficPattern01.csv");
         Records records = new Records(file);
 
-        List<Integer> periods = records.aggregatesNetworkTraffic(200,2);
+        List<Long> periods = records.aggregatesNetworkTraffic(200,2);
 
         Utils.differential(periods).forEach(System.out::println);
 
@@ -31,7 +31,7 @@ public class Main {
 
         Utils.getFileSizeInBytes(files);
 
-        for (Integer period:periods) {
+        for (long period:periods) {
             //System.out.println(period);
         }
     }

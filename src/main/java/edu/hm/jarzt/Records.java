@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Records {
-    private List<Record> records = new ArrayList<Record>();
+    private List<Record> records = new ArrayList<>();
 
     public Records(List<Record> records) {
         this.records = records;
@@ -25,7 +25,7 @@ public class Records {
             csvRecords = CSVFormat.EXCEL.withHeader().parse(in);
             for (CSVRecord record : csvRecords) {
                 int time = Integer.parseInt(record.get("Interval start"));
-                int dataAmount = Integer.parseInt(record.get("Alle Pakete"));
+                long dataAmount = Long.parseLong(record.get("Alle Pakete"));
                 this.records.add(new Record(time, dataAmount));
             }
         } catch (IOException e) {
@@ -42,10 +42,10 @@ public class Records {
         this.records = records;
     }
 
-    List<Integer> aggregatesNetworkTraffic(int threshold, int maxInterval) {
-        List<Integer> periods = new ArrayList<Integer>();
+    List<Long> aggregatesNetworkTraffic(int threshold, int maxInterval) {
+        List<Long> periods = new ArrayList<>();
         int startTime = 0;
-        int sum = 0;
+        long sum = 0L;
         for (int currentTime = 0; currentTime < records.size(); currentTime++) {
             if (records.get(currentTime).getDataAmount() > threshold) {
                 if (currentTime - startTime >= maxInterval) {

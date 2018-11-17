@@ -19,11 +19,11 @@ class NetworkPatternTest {
     void aggregatesNetworkTrafficOdd() {
         File file = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "trafficPattern01Odd.csv");
         Records records = new Records(file);
-        List<Integer> periods = records.aggregatesNetworkTraffic(200, 2);
+        List<Long> periods = records.aggregatesNetworkTraffic(200, 2);
 
         assertThat(periods)
                 .hasSize(9)
-                .containsExactly(720, 453, 1718, 1025, 883, 279, 1104, 441, 479);
+                .containsExactly(720L, 453L, 1718L, 1025L, 883L, 279L, 1104L, 441L, 479L);
 
     }
 
@@ -31,23 +31,23 @@ class NetworkPatternTest {
     void aggregatesNetworkTrafficEven() {
         File file = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "trafficPattern01Even.csv");
         Records records = new Records(file);
-        List<Integer> periods = records.aggregatesNetworkTraffic(200, 2);
+        List<Long> periods = records.aggregatesNetworkTraffic(200, 2);
 
         assertThat(periods)
                 .hasSize(10)
-                .containsExactly(720, 453, 1718, 1025, 883, 279, 1104, 441, 479, 750);
+                .containsExactly(720L, 453L, 1718L, 1025L, 883L, 279L, 1104L, 441L, 479L, 750L);
 
     }
 
     @Test
     void differential() {
 
-        List<Integer> periods = new ArrayList<>();
-        periods.add(250);
-        periods.add(300);
-        periods.add(600);
-        periods.add(1800);
-        periods.add(600);
+        List<Long> periods = new ArrayList<>();
+        periods.add(250L);
+        periods.add(300L);
+        periods.add(600L);
+        periods.add(1800L);
+        periods.add(600L);
 
 
         List<Double> pattern = Utils.differential(periods);
