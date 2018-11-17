@@ -22,7 +22,7 @@ public class Utils {
 
 
     public static List<Double> normalize(List<Double> list) {
-        return list.stream().map(n -> (1 / (1 + Math.exp(-n)))).collect(Collectors.toList());
+        return list.parallelStream().map(n -> (1 / (1 + Math.exp(-n)))).collect(Collectors.toList());
     }
 
     public static List<Long> getFileSizeInBytes(List<String> files) {

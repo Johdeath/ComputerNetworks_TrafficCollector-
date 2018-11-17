@@ -139,13 +139,5 @@ class NetworkPatternTest {
         assertThat(Math.abs(normalizedFingerprint.get(0) - 0.5) <= TOLERANCE).isTrue();
         assertThat(Math.abs(normalizedFingerprint.get(1) - (0.4722507650)) <= TOLERANCE).isTrue();
 
-
-
-
-
-
-
-
-
     }
 }
