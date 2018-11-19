@@ -8,6 +8,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.math.BigDecimal;
+
 public class Records {
     private List<Record> records = new ArrayList<>();
 
@@ -17,15 +19,15 @@ public class Records {
 
     Records(File csvFile) {
         Reader in;
-
-        System.out.println(csvFile.toString());
         CSVParser csvRecords;
         try {
             in = new FileReader(csvFile);
             csvRecords = CSVFormat.EXCEL.withHeader().parse(in);
             for (CSVRecord record : csvRecords) {
                 int time = Integer.parseInt(record.get("Interval start"));
-                long dataAmount = Long.parseLong(record.get("Alle Pakete"));
+                //long dataAmount = Long.valueOf(record.get("Alle Pakete"));
+                long dataAmount = new BigDecimal(record.get("Alle Pakete")).longValueExact();
+
                 this.records.add(new Record(time, dataAmount));
             }
         } catch (IOException e) {
@@ -42,13 +44,13 @@ public class Records {
         this.records = records;
     }
 
-    List<Long> aggregatesNetworkTraffic(int threshold, int maxInterval) {
+    List<Long> aggregatesNetworkTraffic(int threshold, int segmentLength) {
         List<Long> periods = new ArrayList<>();
         int startTime = 0;
         long sum = 0L;
         for (int currentTime = 0; currentTime < records.size(); currentTime++) {
             if (records.get(currentTime).getDataAmount() > threshold) {
-                if (currentTime - startTime >= maxInterval) {
+                if (currentTime - startTime >= segmentLength) {
                     startTime = currentTime;
                     periods.add(sum);
                     sum = records.get(currentTime).getDataAmount();

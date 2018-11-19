@@ -93,7 +93,7 @@ class NetworkPatternTest {
         files.add("test_009.mp4");
         files.add("test_010.mp4");
 
-        List<Long> results = Utils.getFileSizeInBytes(files);
+        List<Long> results = Utils.getFileSizeInBytes(files, "test");
 
         assertThat(results)
                 .hasSize(10)

@@ -10,29 +10,30 @@ public class Main {
 
 
     public static void main(String[] args) {
-        File file = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "trafficPattern01.csv");
+        File file = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "enp0s_NightSchoolAllinBytes.csv");
         Records records = new Records(file);
 
-        List<Long> periods = records.aggregatesNetworkTraffic(200,2);
 
-        Utils.differential(periods).forEach(System.out::println);
+        //Utils.differential(periods).forEach(System.out::println);
 
         List<String> files = new ArrayList<>();
-        files.add("test_001.mp4");
-        files.add("test_002.mp4");
-        files.add("test_003.mp4");
-        files.add("test_004.mp4");
-        files.add("test_005.mp4");
-        files.add("test_006.mp4");
-        files.add("test_007.mp4");
-        files.add("test_008.mp4");
-        files.add("test_009.mp4");
-        files.add("test_010.mp4");
 
-        Utils.getFileSizeInBytes(files);
-
-        for (long period:periods) {
-            //System.out.println(period);
+        for (int i = 1; i <= 141; i++) {
+            files.add("trailer_" + String.format("%03d", i) + ".mp4");
+            //System.out.println("test_" + String.format("%03d",i) + ".mp4");
         }
+        List<Long> list1 = Utils.getFileSizeInBytes(files, "trailer");
+        //List<Double> list2 = Utils.differential(list1);
+        List<Long> listResult = Utils.generateFingerprint(list1, 6);
+        List<Double> listDiff = Utils.differential(listResult);
+        Utils.normalize(listDiff).forEach(System.out::println);
+
+        System.out.println("ASDFASDFASDFASDFASDFASDFSADFASDFASDFASDFASDFj-lkiosdöajsidojasdfijasdfiasdfjiasdfgj");
+
+        // Traffic pattern CSV - File
+        List<Long> periods = records.aggregatesNetworkTraffic(20000, 6);
+        List<Double> pattern = Utils.differential(periods);
+        Utils.normalize(pattern).forEach(System.out::println);
+
     }
 }

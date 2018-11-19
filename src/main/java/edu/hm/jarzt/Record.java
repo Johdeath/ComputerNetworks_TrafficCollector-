@@ -21,7 +21,7 @@ public class Record {
         return dataAmount;
     }
 
-    public void setDataAmount(int dataAmount) {
+    public void setDataAmount(long dataAmount) {
         this.dataAmount = dataAmount;
     }
 }
