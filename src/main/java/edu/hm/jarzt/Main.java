@@ -14,6 +14,8 @@ public class Main {
         Records records = new Records(file);
 
 
+        System.out.println(Math.min(Math.min(5,10),1));
+
         //Utils.differential(periods).forEach(System.out::println);
 
         List<String> files = new ArrayList<>();
@@ -26,14 +28,16 @@ public class Main {
         //List<Double> list2 = Utils.differential(list1);
         List<Long> listResult = Utils.generateFingerprint(list1, 6);
         List<Double> listDiff = Utils.differential(listResult);
-        Utils.normalize(listDiff).forEach(System.out::println);
+        List<Double> fingerprint = new ArrayList<> (Utils.normalize(listDiff));
 
         System.out.println("ASDFASDFASDFASDFASDFASDFSADFASDFASDFASDFASDFj-lkiosdöajsidojasdfijasdfiasdfjiasdfgj");
 
         // Traffic pattern CSV - File
         List<Long> periods = records.aggregatesNetworkTraffic(20000, 6);
         List<Double> pattern = Utils.differential(periods);
-        Utils.normalize(pattern).forEach(System.out::println);
+        List<Double> trafficPattern = new ArrayList<> (Utils.normalize(pattern));
+
+        System.out.println(Utils.pdtw(fingerprint,trafficPattern));
 
     }
 }
