@@ -20,11 +20,15 @@ public class Main {
 
         List<String> files = new ArrayList<>();
 
-        for (int i = 1; i <= 141; i++) {
-            files.add("trailer_" + String.format("%03d", i) + ".mp4");
+        // Original --> 0.014002053987111884
+        // Nation --> 0.02743390741768184
+        // James --> 0.022346840972625116
+
+        for (int i = 1; i <= 450; i++) {
+            files.add("james_" + String.format("%03d", i) + ".mp4");
             //System.out.println("test_" + String.format("%03d",i) + ".mp4");
         }
-        List<Long> list1 = Utils.getFileSizeInBytes(files, "trailer");
+        List<Long> list1 = Utils.getFileSizeInBytes(files, "james");
         //List<Double> list2 = Utils.differential(list1);
         List<Long> listResult = Utils.generateFingerprint(list1, 6);
         List<Double> listDiff = Utils.differential(listResult);
