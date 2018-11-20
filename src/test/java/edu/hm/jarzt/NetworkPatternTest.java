@@ -84,9 +84,9 @@ class NetworkPatternTest {
     @Test
     void aggregateFileSizes() {
 
-        File pathtoTest = new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator + "test");
+        File pathToTest = new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator + "test");
 
-        List<File> files = Arrays.asList(Objects.requireNonNull(pathtoTest.listFiles()));
+        List<File> files = Arrays.asList(Objects.requireNonNull(pathToTest.listFiles()));
 
 
         List<Long> results = Utils.getFileSizeInBytes(files);

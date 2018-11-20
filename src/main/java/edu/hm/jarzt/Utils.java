@@ -86,7 +86,6 @@ public class Utils {
                         }
                     }
                 }
-                System.out.println("du sau1");
                 distances.add(matrix[n-1][m-1]/n);
 
             }
