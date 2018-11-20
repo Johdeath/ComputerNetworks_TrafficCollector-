@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -81,19 +83,13 @@ class NetworkPatternTest {
 
     @Test
     void aggregateFileSizes() {
-        List<String> files = new ArrayList<>();
-        files.add("test_001.mp4");
-        files.add("test_002.mp4");
-        files.add("test_003.mp4");
-        files.add("test_004.mp4");
-        files.add("test_005.mp4");
-        files.add("test_006.mp4");
-        files.add("test_007.mp4");
-        files.add("test_008.mp4");
-        files.add("test_009.mp4");
-        files.add("test_010.mp4");
 
-        List<Long> results = Utils.getFileSizeInBytes(files, "test");
+        File pathtoTest = new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator + "test");
+
+        List<File> files = Arrays.asList(Objects.requireNonNull(pathtoTest.listFiles()));
+
+
+        List<Long> results = Utils.getFileSizeInBytes(files);
 
         assertThat(results)
                 .hasSize(10)

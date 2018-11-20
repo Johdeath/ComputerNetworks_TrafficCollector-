@@ -25,9 +25,8 @@ public class Utils {
         return list.parallelStream().map(n -> (1 / (1 + Math.exp(-n)))).collect(Collectors.toList());
     }
 
-    public static List<Long> getFileSizeInBytes(List<String> files, String dir) {
-        return files.stream().map(n -> new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator + dir + File.separator + n)
-                .length())
+    public static List<Long> getFileSizeInBytes(List<File> files) {
+        return files.stream().map(File::length)
                 .collect(Collectors.toList());
     }
 
