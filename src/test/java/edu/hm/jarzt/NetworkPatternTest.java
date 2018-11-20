@@ -17,7 +17,7 @@ class NetworkPatternTest {
 
     @Test
     void aggregatesNetworkTrafficOdd() {
-        File file = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "trafficPattern01Odd.csv");
+        File file = new File(System.getProperty("user.dir") + File.separator + "trafficPattern" + File.separator + "trafficPattern01Odd.csv");
         Records records = new Records(file);
         List<Long> periods = records.aggregatesNetworkTraffic(200, 2);
 
@@ -29,7 +29,7 @@ class NetworkPatternTest {
 
     @Test
     void aggregatesNetworkTrafficEven() {
-        File file = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "trafficPattern01Even.csv");
+        File file = new File(System.getProperty("user.dir") + File.separator + "trafficPattern" + File.separator + "trafficPattern01Even.csv");
         Records records = new Records(file);
         List<Long> periods = records.aggregatesNetworkTraffic(200, 2);
 

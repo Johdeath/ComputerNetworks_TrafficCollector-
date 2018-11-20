@@ -10,7 +10,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        File file = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "enp0s_NightSchoolAllinBytes.csv");
+        File file = new File(System.getProperty("user.dir") + File.separator + "trafficPattern" + File.separator + "enp0s_NightSchoolAllinBytes.csv");
         Records records = new Records(file);
 
 
