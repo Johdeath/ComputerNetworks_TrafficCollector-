@@ -1,6 +1,7 @@
 package edu.hm.jarzt;
 
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -18,6 +19,7 @@ class NetworkPatternTest {
     private static final double TOLERANCE = 1e-10;
 
     @Test
+    @DisplayName("Test aggregate Networktraffic with odd number of input values")
     void aggregatesNetworkTrafficOdd() {
         File file = new File(System.getProperty("user.dir") + File.separator + "trafficPattern" + File.separator + "trafficPattern01Odd.csv");
         Records records = new Records(file);
@@ -29,7 +31,9 @@ class NetworkPatternTest {
 
     }
 
+
     @Test
+    @DisplayName("Test aggregate Networktraffic with odd even of input values!")
     void aggregatesNetworkTrafficEven() {
         File file = new File(System.getProperty("user.dir") + File.separator + "trafficPattern" + File.separator + "trafficPattern01Even.csv");
         Records records = new Records(file);
@@ -42,6 +46,7 @@ class NetworkPatternTest {
     }
 
     @Test
+    @DisplayName("Test differential Method!")
     void differential() {
 
         List<Long> periods = new ArrayList<>();
@@ -61,6 +66,7 @@ class NetworkPatternTest {
     }
 
     @Test
+    @DisplayName("Test normalize Method!")
     void normalize() {
         List<Double> differential = new ArrayList<>();
         differential.add(0.0);
@@ -82,6 +88,7 @@ class NetworkPatternTest {
     }
 
     @Test
+    @DisplayName("Test get File sizes")
     void aggregateFileSizes() {
 
         File pathToTest = new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator + "test");
@@ -98,6 +105,7 @@ class NetworkPatternTest {
 
 
     @Test
+    @DisplayName("Test the fingerprint generation")
     void generateFingerprintTest() {
         List<Long> listA = new ArrayList<>();
 
