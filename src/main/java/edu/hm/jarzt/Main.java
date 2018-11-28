@@ -12,11 +12,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        File file = new File(System.getProperty("user.dir") + File.separator + "trafficPattern" + File.separator + "bigbugbunny1.csv");
-        File pathToJamesVideoFiles = new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator +"bbb_ohne_audio" + File.separator);
-        List<File> jamesVideoFiles = Arrays.asList(Objects.requireNonNull(pathToJamesVideoFiles.listFiles()));
 
-        Records records = new Records(file);
 
         // BBB ohne audio
         // Original 0.014655912957392868
@@ -31,7 +27,6 @@ public class Main {
 
         //Utils.differential(periods).forEach(System.out::println);
 
-        List<String> files = new ArrayList<>();
 
         // Original --> 0.014002053987111884
         // Nation --> 0.02743390741768184
@@ -39,9 +34,11 @@ public class Main {
 
 
 
-        List<Double> fingerprint = Utils.generateFingerprint(jamesVideoFiles,6);
-        System.out.println("ASAaadsflkjasdfjklöasdljkfsajklfdasjklfjkldöfjklödf");
-        List<Double> trafficPattern = Utils.generateTrafficPattern(records,2000,6);
+
+
+        List<Double> fingerprint = Utils.generateFingerprint("bbb_ohne_audio",6);
+        System.out.println("-----------");
+        List<Double> trafficPattern = Utils.generateTrafficPattern("bigbugbunny1.csv",2000,6);
 
 
         System.out.println(Utils.pdtw(fingerprint,trafficPattern));

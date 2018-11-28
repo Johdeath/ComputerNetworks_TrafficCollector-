@@ -94,15 +94,23 @@ public class Utils {
         return Collections.min(distances);
     }
 
-    public static List<Double> generateFingerprint(List<File> jamesVideoFiles,int segmentLenght){
-        List<Long> fingerPrintWithOneSecondSegments = Utils.getFileSizeInBytes(jamesVideoFiles);
-        List<Long> fingerPrintWithLSecondSegments = Utils.generateFingerPrintWithLSecondSegments(fingerPrintWithOneSecondSegments, segmentLenght);
+    public static List<Double> generateFingerprint(String videoFolderName,int segmentLength){
+
+
+        File pathToVideoFiles = new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator +videoFolderName+ File.separator);
+        List<File> videoFiles = Arrays.asList(Objects.requireNonNull(pathToVideoFiles.listFiles()));
+
+        List<Long> fingerPrintWithOneSecondSegments = Utils.getFileSizeInBytes(videoFiles);
+        List<Long> fingerPrintWithLSecondSegments = Utils.generateFingerPrintWithLSecondSegments(fingerPrintWithOneSecondSegments, segmentLength);
         List<Double> differentialFingerprint = Utils.differential(fingerPrintWithLSecondSegments);
         return (Utils.normalize(differentialFingerprint));
     }
 
-    public static List<Double> generateTrafficPattern(Records recordedTraffic, int threshold, int segmentLenght){
-        List<Long> traffic = recordedTraffic.aggregatesNetworkTraffic(20000, 6);
+    public static List<Double> generateTrafficPattern(String trafficPatternCSVName, int threshold, int segmentLenght){
+
+        File file = new File(System.getProperty("user.dir") + File.separator + "trafficPattern" + File.separator + trafficPatternCSVName);
+        Records records = new Records(file);
+        List<Long> traffic = records.aggregatesNetworkTraffic(20000, 6);
         List<Double> differentialTraffic= Utils.differential(traffic);
         return  Utils.normalize(differentialTraffic);
     }
