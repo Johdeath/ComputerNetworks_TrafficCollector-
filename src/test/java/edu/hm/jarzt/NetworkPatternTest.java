@@ -5,7 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -125,7 +124,7 @@ class NetworkPatternTest {
         assertThat(Math.abs(listR.get(2) - 0.5) <= TOLERANCE).isTrue();
         assertThat(Math.abs(listR.get(3) - 0.6666666666666667) <= TOLERANCE).isTrue();
 
-        List<Long> listResult = Utils.generateFingerprint(listA,2);
+        List<Long> listResult = Utils.generateFingerPrintWithLSecondSegments(listA,2);
 
         assertThat(listResult).hasSize(2).containsExactly(9L, 8L);
 

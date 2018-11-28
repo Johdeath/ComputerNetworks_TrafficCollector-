@@ -13,14 +13,8 @@ public class Main {
 
     public static void main(String[] args) {
         File file = new File(System.getProperty("user.dir") + File.separator + "trafficPattern" + File.separator + "bigbugbunny1.csv");
-
-        File pathToJamesVideoFiles = new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator +"james" + File.separator);
-
+        File pathToJamesVideoFiles = new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator +"bbb_ohne_audio" + File.separator);
         List<File> jamesVideoFiles = Arrays.asList(Objects.requireNonNull(pathToJamesVideoFiles.listFiles()));
-
-
-
-
 
         Records records = new Records(file);
 
@@ -44,29 +38,11 @@ public class Main {
         // James --> 0.022346840972625116
 
 
-        //ToDo move into method in Utils
-        List<Long> list1 = Utils.getFileSizeInBytes(jamesVideoFiles);
-        //List<Double> list2 = Utils.differential(list1);
-        List<Long> listResult = Utils.generateFingerprint(list1, 6);
 
-
-        List<Double> listDiff = Utils.differential(listResult);
-
-        List<Double> fingerprint = new ArrayList<> (Utils.normalize(listDiff));
-        //fingerprint.forEach(System.out::println);
-
-
+        List<Double> fingerprint = Utils.generateFingerprint(jamesVideoFiles,6);
         System.out.println("ASAaadsflkjasdfjklöasdljkfsajklfdasjklfjkldöfjklödf");
+        List<Double> trafficPattern = Utils.generateTrafficPattern(records,2000,6);
 
-        //ToDo move into method in Utils
-        // Traffic pattern CSV - File
-        List<Long> periods = records.aggregatesNetworkTraffic(20000, 6);
-
-
-        List<Double> pattern = Utils.differential(periods);
-
-        List<Double> trafficPattern = new ArrayList<> (Utils.normalize(pattern));
-        //trafficPattern.forEach(System.out::println);
 
         System.out.println(Utils.pdtw(fingerprint,trafficPattern));
 

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class Utils {
 
-    public static List<Double> differential(List<Long> list) {
+     static List<Double> differential(List<Long> list) {
         List<Double> diffList = new ArrayList<>();
         diffList.add(0.0);
 
@@ -21,16 +21,16 @@ public class Utils {
     }
 
 
-    public static List<Double> normalize(List<Double> list) {
+     static List<Double> normalize(List<Double> list) {
         return list.parallelStream().map(n -> (1 / (1 + Math.exp(-n)))).collect(Collectors.toList());
     }
 
-    public static List<Long> getFileSizeInBytes(List<File> files) {
+     static List<Long> getFileSizeInBytes(List<File> files) {
         return files.stream().map(File::length)
                 .collect(Collectors.toList());
     }
 
-    public static List<Long> generateFingerprint(List<Long> list, int segmentLength) {
+     static List<Long> generateFingerPrintWithLSecondSegments(List<Long> list, int segmentLength) {
 
         List<Double> listR = Utils.differential(list);
         List<Long> listResult = new ArrayList<>();
@@ -53,7 +53,7 @@ public class Utils {
     }
 
 
-    public static double pdtw(List<Double> template, List<Double> query) {
+     static double pdtw(List<Double> template, List<Double> query) {
 
         Set<Double> distances = new TreeSet<>();
 
@@ -93,4 +93,19 @@ public class Utils {
 
         return Collections.min(distances);
     }
+
+    public static List<Double> generateFingerprint(List<File> jamesVideoFiles,int segmentLenght){
+        List<Long> fingerPrintWithOneSecondSegments = Utils.getFileSizeInBytes(jamesVideoFiles);
+        List<Long> fingerPrintWithLSecondSegments = Utils.generateFingerPrintWithLSecondSegments(fingerPrintWithOneSecondSegments, segmentLenght);
+        List<Double> differentialFingerprint = Utils.differential(fingerPrintWithLSecondSegments);
+        return (Utils.normalize(differentialFingerprint));
+    }
+
+    public static List<Double> generateTrafficPattern(Records recordedTraffic, int threshold, int segmentLenght){
+        List<Long> traffic = recordedTraffic.aggregatesNetworkTraffic(20000, 6);
+        List<Double> differentialTraffic= Utils.differential(traffic);
+        return  Utils.normalize(differentialTraffic);
+    }
+
+
 }
