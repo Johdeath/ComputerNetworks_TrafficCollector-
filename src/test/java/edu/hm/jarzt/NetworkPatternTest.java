@@ -5,10 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -93,7 +90,7 @@ class NetworkPatternTest {
         File pathToTest = new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator + "test");
 
         List<File> files = Arrays.asList(Objects.requireNonNull(pathToTest.listFiles()));
-
+        Collections.sort(files);
 
         List<Long> results = Utils.getFileSizeInBytes(files);
 
@@ -142,5 +139,15 @@ class NetworkPatternTest {
         assertThat(Math.abs(normalizedFingerprint.get(0) - 0.5) <= TOLERANCE).isTrue();
         assertThat(Math.abs(normalizedFingerprint.get(1) - (0.4722507650)) <= TOLERANCE).isTrue();
 
+    }
+
+    @Test
+    @DisplayName("Test get File sizes")
+    void compareTwoSameFingerprints() {
+
+        List<Double> list1 = Utils.generateFingerprint("test", 2);
+        List<Double> list2 = Utils.generateFingerprint("test", 2);
+
+        assertThat(Utils.partialMatchingPdtw(list1, list2)).isEqualTo(0.0);
     }
 }

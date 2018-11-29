@@ -1,11 +1,7 @@
 package edu.hm.jarzt;
 
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 
 public class Main {
@@ -41,7 +37,7 @@ public class Main {
         List<Double> trafficPattern = Utils.generateTrafficPattern("bigbugbunny1.csv",2000,6);
 
 
-        System.out.println(Utils.pdtw(fingerprint,trafficPattern));
+        System.out.println(Utils.partialMatchingPdtw(fingerprint,trafficPattern));
 
 
     }
