@@ -150,4 +150,24 @@ class NetworkPatternTest {
 
         assertThat(Utils.partialMatchingPdtw(list1, list2)).isEqualTo(0.0);
     }
+
+
+    @Test
+    @DisplayName("Test get File sizes")
+    void compareTwoEqualFingerprintsShouldReturnZero() {
+
+        List<Double> list1 = Utils.generateFingerprint("test", 2);
+        List<Double> list2 = Utils.generateFingerprint("test", 2);
+        assertThat(Utils.partialMatchingPdtwForTesing(list1, list2,list1)).isEqualTo(0.0);
+
+       // list1.remove(list1.size()-1);
+       // assertThat(Utils.partialMatchingPdtwForTesing(list1, list2,list1)).isEqualTo(0.0);
+    }
+
+
+
+
+
+
+
 }
