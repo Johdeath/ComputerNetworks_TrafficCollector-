@@ -59,10 +59,10 @@ public class Utils {
         for (int q = 1; q <= template.size() ; q++) { //Todo j < template.size() war mal j <= template.size()
             List<Double> subSequence = template.subList(0, q); //Todo (j+1) nachträglich hinzugefügt nicht sicher
 
-            int n = query.size() + 1;
-            int m = subSequence.size() + 1;
+            int n = query.size();
+            int m = subSequence.size();
 
-            double[][] matrix = new double[n][m];
+            double[][] matrix = new double[n+1][m+1];
 
             matrix[0][0] = 0;
 
@@ -74,8 +74,8 @@ public class Utils {
                 matrix[0][i] = Double.MAX_VALUE;
             }
 
-            for (int i = 1; i < n; i++) {
-                for (int j = 1; j < m; j++) {
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= m; j++) {
                     double cost = Math.abs(query.get(i - 1) - subSequence.get(j - 1));
                     if (j >= 2) {
                         matrix[i][j] = cost + Math.min(Math.min(matrix[i - 1][j], matrix[i - 1][j - 1]), matrix[i - 1][j - 2]);
@@ -85,7 +85,7 @@ public class Utils {
                 }
             }
 
-            distances.add(matrix[n - 1][m - 1] / n);
+            distances.add(matrix[n][m] / n);
         }
 
         return Collections.min(distances);
