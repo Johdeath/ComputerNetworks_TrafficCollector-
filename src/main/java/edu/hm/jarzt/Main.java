@@ -34,11 +34,18 @@ public class Main {
 
         List<Double> fingerprint = Utils.generateFingerprint("bbb_ohne_audio",6);
         System.out.println("-----------");
-        List<Double> trafficPattern = Utils.generateTrafficPattern("bigbugbunny1.csv",2000,6);
+        List<Double> trafficPattern = Utils.generateTrafficPattern("bigbugbunny.csv",2000,6);
+        List<Double> trafficPattern2 = Utils.generateTrafficPattern("james.csv",2000,6);
 
 
-        System.out.println(Utils.partialMatchingPdtw(fingerprint,trafficPattern));
+        System.out.println("Original " + Utils.partialMatchingPdtw(fingerprint,trafficPattern));
+        System.out.println(Utils.partialMatchingPdtw(fingerprint,trafficPattern2));
 
 
+        List<Double> fingerprint2 = Utils.generateFingerprint("james",6);
+        System.out.println("-----------");
+
+        System.out.println("Original " + Utils.partialMatchingPdtw(fingerprint2,trafficPattern2));
+        System.out.println(Utils.partialMatchingPdtw(fingerprint2,trafficPattern));
     }
 }
