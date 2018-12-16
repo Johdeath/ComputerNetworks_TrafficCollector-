@@ -67,11 +67,11 @@ public class Utils {
             matrix[0][0] = 0;
 
             //was zum Teufel!!!!!
-            for (int i = 1; i < n; i++) {
-                matrix[i][0] = Double.MAX_VALUE;
+            for (int i = 1; i <= n; i++) {
+                matrix[i][0] = Double.POSITIVE_INFINITY;
             }
-            for (int i = 1; i < m; i++) {
-                matrix[0][i] = Double.MAX_VALUE;
+            for (int i = 1; i <= m; i++) {
+                matrix[0][i] = Double.POSITIVE_INFINITY;
             }
 
             for (int i = 1; i <= n; i++) {
@@ -105,10 +105,10 @@ public class Utils {
         matrix[0][0] = 0;
 
         //was zum Teufel!!!!!
-        for (int i = 1; i < n; i++) {
+        for (int i = 1; i <= n; i++) {
             matrix[i][0] = Double.POSITIVE_INFINITY;
         }
-        for (int i = 1; i < m; i++) {
+        for (int i = 1; i <= m; i++) {
             matrix[0][i] = Double.POSITIVE_INFINITY;
         }
 
@@ -121,15 +121,15 @@ public class Utils {
                     matrix[i][j] = cost + Math.min(matrix[i - 1][j], matrix[i - 1][j - 1]);
                 }
 
-                printMatrix(matrix,n,m);
+            //   printMatrix(matrix,n,m);
             }
-            System.out.print("\n"+i+"\n");
+           // System.out.print("\n"+i+"\n");
         }
 
         distances.add(matrix[n][m] / n);
 
 
-        return Collections.min(distances);
+         return Collections.min(distances);
     }
 
     public static List<Double> generateFingerprint(String videoFolderName, int segmentLength) {
@@ -148,14 +148,14 @@ public class Utils {
 
         File file = new File(System.getProperty("user.dir") + File.separator + "trafficPattern" + File.separator + trafficPatternCSVName);
         Records records = new Records(file);
-        List<Long> traffic = records.aggregatesNetworkTraffic(20000, 6);
+        List<Long> traffic = records.aggregatesNetworkTraffic(threshold, segmentLenght);
         List<Double> differentialTraffic = Utils.differential(traffic);
         return Utils.normalize(differentialTraffic);
     }
 
     private static void printMatrix(double[][] matrix, int n , int m) {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m ;j++ ){
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= m ;j++ ){
                 System.out.print(String.format("%.3f ",matrix[i][j]));
             }
             System.out.println();

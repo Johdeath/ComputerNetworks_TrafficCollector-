@@ -1,6 +1,7 @@
 package edu.hm.jarzt;
 
 
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -156,12 +157,33 @@ class NetworkPatternTest {
     @DisplayName("Test get File sizes")
     void compareTwoEqualFingerprintsShouldReturnZero() {
 
-        List<Double> list1 = Utils.generateFingerprint("test", 2);
-        List<Double> list2 = Utils.generateFingerprint("test", 2);
-        assertThat(Utils.partialMatchingPdtwForTesing(list1, list2,list1)).isEqualTo(0.0);
-
-       // list1.remove(list1.size()-1);
+        List<Double> query = Utils.generateTrafficPattern("randomTrafficPattern.csv",2000,1);
+        List<Double>  template = Utils.generateTrafficPattern("randomTrafficPattern2.csv",2000,1);
+        List<Double> subseqenz;
        // assertThat(Utils.partialMatchingPdtwForTesing(list1, list2,list1)).isEqualTo(0.0);
+        Map<Double,List<Double>> result = new HashMap<>();
+
+
+        template=template.subList(0,9);
+        query=query.subList(0,4);
+        subseqenz = template;
+
+        for(int i =0; i <9 ; i++) {
+            for(int j=i; j <9; j++) {
+
+                subseqenz = template.subList(i, j+1);
+              //  System.out.println(Utils.partialMatchingPdtwForTesing(template, query, subseqenz));
+                result.put(Utils.partialMatchingPdtwForTesing(template, query, subseqenz),subseqenz);
+
+            }
+
+
+        }
+
+        System.out.print("Hello Break!");
+
+
+
     }
 
 
