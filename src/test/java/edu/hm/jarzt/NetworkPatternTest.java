@@ -209,6 +209,24 @@ class NetworkPatternTest {
 
     }
 
+
+    @Test
+    void compareJamesFingerprintWithJames30SecPattern() {
+
+        List<Double> queryJames = Utils.generateTrafficPattern("james30SecNew.csv",2000,6);
+        List<Double> templateJames = Utils.generateFingerprint("james", 6);
+        List<Double> subseqenz;
+        List<Double> result =new ArrayList<>();
+
+        for(int i =0; i <templateJames.size() ; i++) {
+            for(int j=i; j <templateJames.size(); j++) {
+                subseqenz = templateJames.subList(i, j+1);
+                result.add(Utils.partialMatchingPdtwForTesing(templateJames, queryJames, subseqenz));
+            }
+        }
+        assertThat(Collections.min(result)).isEqualTo(0.0);
+    }
+
 }
 
 
