@@ -154,42 +154,63 @@ class NetworkPatternTest {
 
 
     @Test
-    @DisplayName("Test get File sizes")
     void compareTwoEqualFingerprintsShouldReturnZero() {
 
-        List<Double> query = Utils.generateTrafficPattern("randomTrafficPattern.csv",2000,1);
-        List<Double>  template = Utils.generateTrafficPattern("randomTrafficPattern2.csv",2000,1);
+        List<Double> query = Utils.generateTrafficPattern("bigbugbunny.csv",2000,1);
+        List<Double>  template = Utils.generateTrafficPattern("bigbugbunny.csv",2000,1);
         List<Double> subseqenz;
-       // assertThat(Utils.partialMatchingPdtwForTesing(list1, list2,list1)).isEqualTo(0.0);
-        Map<Double,List<Double>> result = new HashMap<>();
+        List<Double> result =new ArrayList<>();
+        query=query.subList(0,query.size()-1);
 
-
-        template=template.subList(0,9);
-        query=query.subList(0,4);
-        subseqenz = template;
-
-        for(int i =0; i <9 ; i++) {
-            for(int j=i; j <9; j++) {
-
+        for(int i =0; i <template.size() ; i++) {
+            for(int j=i; j <template.size(); j++) {
                 subseqenz = template.subList(i, j+1);
-              //  System.out.println(Utils.partialMatchingPdtwForTesing(template, query, subseqenz));
-                result.put(Utils.partialMatchingPdtwForTesing(template, query, subseqenz),subseqenz);
+                result.add(Utils.partialMatchingPdtwForTesing(template, query, subseqenz));
 
             }
+        }
+        assertThat(Collections.min(result)).isEqualTo(0.0);
+    }
 
+    @Test
+    void compareJamesFingerprintWithJamesPattern() {
 
+        List<Double> queryJames = Utils.generateTrafficPattern("james.csv",2000,6);
+        List<Double> templateJames = Utils.generateFingerprint("james", 6);
+        List<Double> subseqenz;
+        List<Double> result =new ArrayList<>();
+
+        for(int i =0; i <templateJames.size() ; i++) {
+            for(int j=i; j <templateJames.size(); j++) {
+                subseqenz = templateJames.subList(i, j+1);
+                result.add(Utils.partialMatchingPdtwForTesing(templateJames, queryJames, subseqenz));
+            }
         }
 
-        System.out.print("Hello Break!");
-
-
+        assertThat(Collections.min(result)).isEqualTo(0.0);
 
     }
 
+    @Test
+    void compareBBBFingerprintWithBBBPattern() {
 
+        List<Double> queryBBB = Utils.generateTrafficPattern("bigbugbunny.csv",2000,6);
+        List<Double> templateBBB = Utils.generateFingerprint("bbb_ohne_audio",6);
+        List<Double> subseqenz;
+        List<Double> result =new ArrayList<>();
 
+        for(int i =0; i <templateBBB.size() ; i++) {
+            for(int j=i; j <templateBBB.size(); j++) {
+                subseqenz = templateBBB.subList(i, j+1);
+                result.add(Utils.partialMatchingPdtwForTesing(templateBBB, queryBBB, subseqenz));
+            }
+        }
+        assertThat(Collections.min(result)).isEqualTo(0.0);
 
-
-
+    }
 
 }
+
+
+
+

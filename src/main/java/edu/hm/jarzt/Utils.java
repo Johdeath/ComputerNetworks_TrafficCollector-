@@ -66,7 +66,7 @@ public class Utils {
 
             matrix[0][0] = 0;
 
-            //was zum Teufel!!!!!
+
             for (int i = 1; i <= n; i++) {
                 matrix[i][0] = Double.POSITIVE_INFINITY;
             }
@@ -132,7 +132,7 @@ public class Utils {
          return Collections.min(distances);
     }
 
-    public static List<Double> generateFingerprint(String videoFolderName, int segmentLength) {
+     public static List<Double> generateFingerprint(String videoFolderName, int segmentLength) {
 
 
         File pathToVideoFiles = new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator + videoFolderName + File.separator);
