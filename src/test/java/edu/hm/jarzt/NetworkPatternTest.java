@@ -227,6 +227,24 @@ class NetworkPatternTest {
         assertThat(Collections.min(result)).isEqualTo(0.0);
     }
 
+    @Test
+    void newTest(){
+
+        File pathToVideoFiles = new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator + "james" + File.separator);
+        List<File> videoFiles = Arrays.asList(Objects.requireNonNull(pathToVideoFiles.listFiles()));
+
+        List<Long> fingerPrintWithOneSecondSegments = Utils.getFileSizeInBytes(videoFiles);
+        List<Long> fingerPrintWithLSecondSegments = Utils.generateFingerPrintWithLSecondSegments(fingerPrintWithOneSecondSegments, 6);
+        List<Double> differentialFingerprint = Utils.differential(fingerPrintWithLSecondSegments);
+
+        File file = new File(System.getProperty("user.dir") + File.separator + "trafficPattern" + File.separator + "james30SecNew.csv");
+        Records records = new Records(file);
+        List<Long> traffic = records.aggregatesNetworkTraffic(2000, 6);
+        List<Double> differentialTraffic = Utils.differential(traffic);
+
+
+    }
+
 }
 
 
