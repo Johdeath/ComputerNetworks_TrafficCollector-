@@ -49,20 +49,24 @@ public class Records {
         int startTime = 0;
         long sum = 0L;
         for (int currentTime = 0; currentTime < records.size(); currentTime++) {
-            if (currentTime - startTime >= segmentLength-1) {
+            if (currentTime - startTime >= segmentLength - 1) {
                 if (records.get(currentTime).getDataAmount() > threshold) {
                     sum += records.get(currentTime).getDataAmount();
                 }
-                startTime = currentTime+1;
-                periods.add(sum);
-                sum = 0;
+                startTime = currentTime + 1;
+                if (sum > 0) {
+                    periods.add(sum);
+                    sum = 0;
+                }
             } else {
                 if (records.get(currentTime).getDataAmount() > threshold) {
                     sum += records.get(currentTime).getDataAmount();
                 }
             }
         }
-        periods.add(sum);
+        if (sum > 0) {
+            periods.add(sum);
+        }
         return periods;
     }
 }

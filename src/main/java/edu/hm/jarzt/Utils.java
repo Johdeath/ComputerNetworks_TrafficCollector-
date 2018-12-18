@@ -15,7 +15,6 @@ public class Utils {
             double result = (double) (list.get(i) - list.get(i - 1)) / list.get(i - 1);
             diffList.add(result);
         }
-
         return diffList;
     }
 
