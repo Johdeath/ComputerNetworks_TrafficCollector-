@@ -156,7 +156,7 @@ class NetworkPatternTest {
     void compareTwoEqualFingerprintsShouldReturnZero() {
 
         List<Double> query = Utils.generateTrafficPattern("bigbugbunny.csv", 20000, 6);
-        List<Double> template = Utils.generateTrafficPattern("bigbugbunny.csv", 20000,6);
+        List<Double> template = Utils.generateTrafficPattern("bigbugbunny.csv", 20000, 6);
         List<Double> subseqenz;
         List<Double> result = new ArrayList<>();
         query = query.subList(0, query.size() - 1);
@@ -235,6 +235,54 @@ class NetworkPatternTest {
             }
         }
         assertThat(Collections.min(result)).isLessThan(0.019);
+    }
+
+    @Test
+    void checkSimilarity() {
+        List<String> fingerprintNames = new ArrayList<>();
+        List<String> trafficPatternNames = new ArrayList<>();
+
+        fingerprintNames.add("bbb_ohne_audio");
+        fingerprintNames.add("cat");
+        fingerprintNames.add("james");
+
+        trafficPatternNames.add("bigbugbunny.csv");
+        trafficPatternNames.add("cat.csv");
+        trafficPatternNames.add("james.csv");
+
+        SimilarityChecker checker = new SimilarityChecker(fingerprintNames, trafficPatternNames, 6, 20000);
+
+        List<List<Double>> result = checker.calculateSimularity();
+
+        assertThat(result.get(0).get(0)).
+                as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(0), trafficPatternNames.get(0))
+                .isLessThan(0.019);
+        assertThat(result.get(0).get(1)).as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(0), trafficPatternNames.get(1))
+                .isGreaterThan(0.019);
+        assertThat(result.get(0).get(2)).as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(0), trafficPatternNames.get(2))
+                .isGreaterThan(0.019);
+
+        assertThat(result.get(1).get(0)).
+                as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(1), trafficPatternNames.get(0))
+                .isGreaterThan(0.019);
+        assertThat(result.get(1).get(1)).
+                as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(1), trafficPatternNames.get(1))
+                .isLessThan(0.019);
+        assertThat(result.get(1).get(2)).
+                as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(1), trafficPatternNames.get(2))
+                .isGreaterThan(0.019);
+
+
+        assertThat(result.get(2).get(0)).
+                as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(2), trafficPatternNames.get(0))
+                .isGreaterThan(0.019);
+        assertThat(result.get(2).get(1)).
+                as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(2), trafficPatternNames.get(1))
+                .isLessThan(0.019);
+        assertThat(result.get(2).get(2)).
+                as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(2), trafficPatternNames.get(2))
+                .isGreaterThan(0.019);
+
     }
 
     @Test
