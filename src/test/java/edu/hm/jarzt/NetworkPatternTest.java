@@ -155,8 +155,8 @@ class NetworkPatternTest {
     @Test
     void compareTwoEqualFingerprintsShouldReturnZero() {
 
-        List<Double> query = Utils.generateTrafficPattern("bigbugbunny.csv", 6000, 6);
-        List<Double> template = Utils.generateTrafficPattern("bigbugbunny.csv", 6000, 6);
+        List<Double> query = Utils.generateTrafficPattern("bigbugbunny.csv", 20000, 6);
+        List<Double> template = Utils.generateTrafficPattern("bigbugbunny.csv", 20000,6);
         List<Double> subseqenz;
         List<Double> result = new ArrayList<>();
         query = query.subList(0, query.size() - 1);
@@ -173,7 +173,7 @@ class NetworkPatternTest {
     @Test
     void compareJamesFingerprintWithJamesPattern() {
 
-        List<Double> queryJames = Utils.generateTrafficPattern("james.csv", 2000, 6);
+        List<Double> queryJames = Utils.generateTrafficPattern("james.csv", 20000, 6);
         List<Double> templateJames = Utils.generateFingerprint("james", 6);
         List<Double> subseqenz;
         List<Double> result = new ArrayList<>();
@@ -190,7 +190,7 @@ class NetworkPatternTest {
 
     @Test
     void compareBBBFingerprintWithBBBPattern() {
-        List<Double> queryBBB = Utils.generateTrafficPattern("bigbugbunny.csv", 2000, 6);
+        List<Double> queryBBB = Utils.generateTrafficPattern("bigbugbunny.csv", 20000, 6);
         List<Double> templateBBB = Utils.generateFingerprint("bbb_ohne_audio", 6);
         List<Double> subseqenz;
         List<Double> result = new ArrayList<>();
@@ -207,7 +207,7 @@ class NetworkPatternTest {
     @Test
     void compareJamesFingerprintWithJames30SecPattern() {
 
-        List<Double> queryJames = Utils.generateTrafficPattern("james30SecNew.csv", 2000, 6);
+        List<Double> queryJames = Utils.generateTrafficPattern("james30SecNew.csv", 20000, 6);
         List<Double> templateJames = Utils.generateFingerprint("james", 6);
         List<Double> subseqenz;
         List<Double> result = new ArrayList<>();
@@ -216,6 +216,22 @@ class NetworkPatternTest {
             for (int j = i; j < templateJames.size(); j++) {
                 subseqenz = templateJames.subList(i, j + 1);
                 result.add(Utils.partialMatchingPdtwForTesing(templateJames, queryJames, subseqenz));
+            }
+        }
+        assertThat(Collections.min(result)).isLessThan(0.019);
+    }
+
+    @Test
+    void compareCatFingerprintWithCatPattern() {
+        List<Double> queryCat = Utils.generateTrafficPattern("cat4SecSegmSize.csv", 20000, 4);
+        List<Double> templateCat = Utils.generateFingerprint("cat", 4);
+        List<Double> subseqenz;
+        List<Double> result = new ArrayList<>();
+
+        for (int i = 0; i < templateCat.size(); i++) {
+            for (int j = i; j < templateCat.size(); j++) {
+                subseqenz = templateCat.subList(i, j + 1);
+                result.add(Utils.partialMatchingPdtwForTesing(templateCat, queryCat, subseqenz));
             }
         }
         assertThat(Collections.min(result)).isLessThan(0.019);
