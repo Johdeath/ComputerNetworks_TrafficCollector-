@@ -7,18 +7,18 @@ import java.util.List;
 public class SimilarityChecker {
     private List<String> finterprintNames;
     private List<String> trafficpatternNames;
-    private int segmentLength;
+    private List<Integer> segmentLenghts;
     private int threshold;
 
-    public SimilarityChecker(List<String> finterprintNames, List<String> trafficpatternNames, int segmentLength, int threshold) {
+    public SimilarityChecker(List<String> finterprintNames, List<String> trafficpatternNames, List<Integer> segmentLengths, int threshold) {
         this.finterprintNames = finterprintNames;
         this.trafficpatternNames = trafficpatternNames;
-        this.segmentLength = segmentLength;
+        this.segmentLenghts = segmentLengths;
         this.threshold = threshold;
     }
 
-    public void setSegmentLength(int segmentLength) {
-        this.segmentLength = segmentLength;
+    public void setSegmentLength(List<Integer> segmentLenghts) {
+        this.segmentLenghts = segmentLenghts;
     }
 
     public void setThreshold(int threshold) {
@@ -35,25 +35,26 @@ public class SimilarityChecker {
 
     public List<List<Double>> calculateSimularity() {
         List<List<Double>> endResult = new ArrayList<>();
-
+        int indexOuter = 0;
         for (String fingerprintName : finterprintNames) {
             List<Double> partResult = new ArrayList<>();
+            int indexInner = 0;
             for (String trafficpatternName : trafficpatternNames) {
-                List<Double> queryJames = Utils.generateTrafficPattern(trafficpatternName, threshold, segmentLength);
-                List<Double> templateJames = Utils.generateFingerprint(fingerprintName, segmentLength);
-                List<Double> subseqenz;
+                List<Double> trafficPattern = Utils.generateTrafficPattern(trafficpatternName, threshold, segmentLenghts.get(indexInner));
+                List<Double> fingerprints = Utils.generateFingerprint(fingerprintName, segmentLenghts.get(indexOuter));
+                List<Double> subSequence;
                 List<Double> result = new ArrayList<>();
 
-                for (int i = 0; i < templateJames.size(); i++) {
-                    for (int j = i; j < templateJames.size(); j++) {
-                        subseqenz = templateJames.subList(i, j + 1);
-                        result.add(Utils.partialMatchingPdtwForTesing(templateJames, queryJames, subseqenz));
+                for (int i = 0; i < fingerprints.size(); i++) {
+                    for (int j = i; j < fingerprints.size(); j++) {
+                        subSequence = fingerprints.subList(i, j + 1);
+                        result.add(Utils.partialMatchingPdtwForTesing(fingerprints, trafficPattern, subSequence));
                     }
                 }
+                indexInner++;
                 partResult.add(Collections.min(result));
-
             }
-
+            indexOuter++;
             endResult.add(partResult);
 
         }

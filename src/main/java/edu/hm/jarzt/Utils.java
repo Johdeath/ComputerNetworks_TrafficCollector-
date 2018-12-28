@@ -20,7 +20,7 @@ public class Utils {
 
 
     static List<Double> normalize(List<Double> list) {
-        return list.parallelStream().map(n -> (1 / (1 + Math.exp(-n)))).collect(Collectors.toList());
+        return list.stream().map(n -> (1 / (1 + Math.exp(-n)))).collect(Collectors.toList());
     }
 
     static List<Long> getFileSizeInBytes(List<File> files) {
@@ -34,8 +34,10 @@ public class Utils {
         List<Long> listResult = new ArrayList<>();
 
         //Todo perhaps cut the value (listR.size()/segmentLength) ends with trouble
+        int counter = 0;
+        double sum = 0;
         for (int i = 1; i <= listR.size() / segmentLength; i++) {
-            double sum = 0;
+            sum = 0;
             for (int j = 1; j <= segmentLength; j++) { //sum
                 int k = 1;
                 double prod = 1;
@@ -46,7 +48,17 @@ public class Utils {
                 sum += prod;
             }
             listResult.add((long) (sum * list.get(0)));
+            counter++;
         }
+        long newSum = 0;
+        for (int i = 0; i < listR.size() % segmentLength; i++) {
+            newSum += list.get(counter * segmentLength + i);
+        }
+
+        if (listR.size() % segmentLength != 0) {
+            listResult.add(newSum);
+        }
+
         return listResult;
     }
 
@@ -120,18 +132,18 @@ public class Utils {
                     matrix[i][j] = cost + Math.min(matrix[i - 1][j], matrix[i - 1][j - 1]);
                 }
 
-            //   printMatrix(matrix,n,m);
+                //   printMatrix(matrix,n,m);
             }
-           // System.out.print("\n"+i+"\n");
+            // System.out.print("\n"+i+"\n");
         }
 
         distances.add(matrix[n][m] / n);
 
 
-         return Collections.min(distances);
+        return Collections.min(distances);
     }
 
-     public static List<Double> generateFingerprint(String videoFolderName, int segmentLength) {
+    public static List<Double> generateFingerprint(String videoFolderName, int segmentLength) {
 
 
         File pathToVideoFiles = new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator + videoFolderName + File.separator);
@@ -139,6 +151,11 @@ public class Utils {
 
         List<Long> fingerPrintWithOneSecondSegments = Utils.getFileSizeInBytes(videoFiles);
         List<Long> fingerPrintWithLSecondSegments = Utils.generateFingerPrintWithLSecondSegments(fingerPrintWithOneSecondSegments, segmentLength);
+
+       /* for (long value : fingerPrintWithLSecondSegments){
+            System.out.println(value);
+        }*/
+
         List<Double> differentialFingerprint = Utils.differential(fingerPrintWithLSecondSegments);
         return (Utils.normalize(differentialFingerprint));
     }
@@ -148,14 +165,20 @@ public class Utils {
         File file = new File(System.getProperty("user.dir") + File.separator + "trafficPattern" + File.separator + trafficPatternCSVName);
         Records records = new Records(file);
         List<Long> traffic = records.aggregatesNetworkTraffic(threshold, segmentLenght);
+
+        for (long value : traffic){
+            //System.out.println(value);
+        }
+
+
         List<Double> differentialTraffic = Utils.differential(traffic);
         return Utils.normalize(differentialTraffic);
     }
 
-    private static void printMatrix(double[][] matrix, int n , int m) {
+    private static void printMatrix(double[][] matrix, int n, int m) {
         for (int i = 0; i <= n; i++) {
-            for (int j = 0; j <= m ;j++ ){
-                System.out.print(String.format("%.3f ",matrix[i][j]));
+            for (int j = 0; j <= m; j++) {
+                System.out.print(String.format("%.3f ", matrix[i][j]));
             }
             System.out.println();
         }

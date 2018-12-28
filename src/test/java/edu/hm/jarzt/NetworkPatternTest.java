@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class NetworkPatternTest {
 
     private static final double TOLERANCE = 1e-10;
+    private static final double TRESHHOLD = 1e-2;
 
     @Test
     @DisplayName("Test aggregate Networktraffic with odd number of input values")
@@ -100,6 +101,7 @@ class NetworkPatternTest {
     }
 
 
+
     @Test
     @DisplayName("Test the fingerprint generation")
     void generateFingerprintTest() {
@@ -109,35 +111,39 @@ class NetworkPatternTest {
         listA.add(2L);
         listA.add(3L);
         listA.add(5L);
+        listA.add(10L);
 
 
         List<Double> listR = Utils.differential(listA);
 
         assertThat(listR)
-                .hasSize(4);
+                .hasSize(5);
 
         assertThat(Math.abs(listR.get(0) - 0.0) <= TOLERANCE).isTrue();
         assertThat(Math.abs(listR.get(1) - (-0.7142857142857143)) <= TOLERANCE).isTrue();
         assertThat(Math.abs(listR.get(2) - 0.5) <= TOLERANCE).isTrue();
         assertThat(Math.abs(listR.get(3) - 0.6666666666666667) <= TOLERANCE).isTrue();
+        assertThat(Math.abs(listR.get(4) - 1) <= TOLERANCE).isTrue();
 
         List<Long> listResult = Utils.generateFingerPrintWithLSecondSegments(listA, 2);
 
-        assertThat(listResult).hasSize(2).containsExactly(9L, 8L);
+        assertThat(listResult).hasSize(3).containsExactly(9L, 8L, 10L);
 
         List<Double> listDiff = Utils.differential(listResult);
 
-        assertThat(listDiff).hasSize(2);
+        assertThat(listDiff).hasSize(3);
 
         assertThat(Math.abs(listDiff.get(0) - 0.0) <= TOLERANCE).isTrue();
         assertThat(Math.abs(listDiff.get(1) - (-0.1111111111111111)) <= TOLERANCE).isTrue();
+        assertThat(Math.abs(listDiff.get(2) - 0.25) <= TOLERANCE).isTrue();
 
         List<Double> normalizedFingerprint = Utils.normalize(listDiff);
 
-        assertThat(normalizedFingerprint).hasSize(2);
+        assertThat(normalizedFingerprint).hasSize(3);
 
         assertThat(Math.abs(normalizedFingerprint.get(0) - 0.5) <= TOLERANCE).isTrue();
         assertThat(Math.abs(normalizedFingerprint.get(1) - (0.4722507650)) <= TOLERANCE).isTrue();
+        assertThat(Math.abs(normalizedFingerprint.get(2) - (0.5621765008)) <= TOLERANCE).isTrue();
 
     }
 
@@ -155,8 +161,8 @@ class NetworkPatternTest {
     @Test
     void compareTwoEqualFingerprintsShouldReturnZero() {
 
-        List<Double> query = Utils.generateTrafficPattern("bigbugbunny.csv", 20000, 6);
-        List<Double> template = Utils.generateTrafficPattern("bigbugbunny.csv", 20000, 6);
+        List<Double> query = Utils.generateTrafficPattern("james.csv", 20000, 5);
+        List<Double> template = Utils.generateTrafficPattern("james.csv", 20000, 5);
         List<Double> subseqenz;
         List<Double> result = new ArrayList<>();
         query = query.subList(0, query.size() - 1);
@@ -171,10 +177,10 @@ class NetworkPatternTest {
     }
 
     @Test
-    void compareJamesFingerprintWithJamesPattern() {
+    void compareJames30fpsFingerprintWithJames30fpsPattern() {
 
-        List<Double> queryJames = Utils.generateTrafficPattern("james.csv", 20000, 6);
-        List<Double> templateJames = Utils.generateFingerprint("james", 6);
+        List<Double> queryJames = Utils.generateTrafficPattern("james.csv", 20000, 5);
+        List<Double> templateJames = Utils.generateFingerprint("james", 5);
         List<Double> subseqenz;
         List<Double> result = new ArrayList<>();
 
@@ -184,31 +190,15 @@ class NetworkPatternTest {
                 result.add(Utils.partialMatchingPdtwForTesing(templateJames, queryJames, subseqenz));
             }
         }
-        assertThat(Collections.min(result)).isLessThan(0.019);
-
+        System.out.println(Collections.min(result));
+        assertThat(Collections.min(result)).isLessThan(TRESHHOLD);
     }
 
     @Test
-    void compareBBBFingerprintWithBBBPattern() {
-        List<Double> queryBBB = Utils.generateTrafficPattern("bigbugbunny.csv", 20000, 6);
-        List<Double> templateBBB = Utils.generateFingerprint("bbb_ohne_audio", 6);
-        List<Double> subseqenz;
-        List<Double> result = new ArrayList<>();
+    void compareKovacFingerprintWithKovacPattern() {
 
-        for (int i = 0; i < templateBBB.size(); i++) {
-            for (int j = i; j < templateBBB.size(); j++) {
-                subseqenz = templateBBB.subList(i, j + 1);
-                result.add(Utils.partialMatchingPdtwForTesing(templateBBB, queryBBB, subseqenz));
-            }
-        }
-        assertThat(Collections.min(result)).isLessThan(0.019);
-    }
-
-    @Test
-    void compareJamesFingerprintWithJames30SecPattern() {
-
-        List<Double> queryJames = Utils.generateTrafficPattern("james30SecNew.csv", 20000, 6);
-        List<Double> templateJames = Utils.generateFingerprint("james", 6);
+        List<Double> queryJames = Utils.generateTrafficPattern("kovac.csv", 20000, 6);
+        List<Double> templateJames = Utils.generateFingerprint("kovac", 6);
         List<Double> subseqenz;
         List<Double> result = new ArrayList<>();
 
@@ -218,8 +208,28 @@ class NetworkPatternTest {
                 result.add(Utils.partialMatchingPdtwForTesing(templateJames, queryJames, subseqenz));
             }
         }
-        assertThat(Collections.min(result)).isLessThan(0.019);
+        System.out.println(Collections.min(result));
+        assertThat(Collections.min(result)).isLessThan(TRESHHOLD);
     }
+
+    @Test
+    void compareJimmyFingerprintWithJimmyPattern() {
+
+        List<Double> queryJames = Utils.generateTrafficPattern("jimmy.csv", 20000, 5);
+        List<Double> templateJames = Utils.generateFingerprint("jimmy", 5);
+        List<Double> subseqenz;
+        List<Double> result = new ArrayList<>();
+
+        for (int i = 0; i < templateJames.size(); i++) {
+            for (int j = i; j < templateJames.size(); j++) {
+                subseqenz = templateJames.subList(i, j + 1);
+                result.add(Utils.partialMatchingPdtwForTesing(templateJames, queryJames, subseqenz));
+            }
+        }
+        System.out.println(Collections.min(result));
+        assertThat(Collections.min(result)).isLessThan(TRESHHOLD);
+    }
+
 
     @Test
     void compareCatFingerprintWithCatPattern() {
@@ -234,56 +244,85 @@ class NetworkPatternTest {
                 result.add(Utils.partialMatchingPdtwForTesing(templateCat, queryCat, subseqenz));
             }
         }
-        assertThat(Collections.min(result)).isLessThan(0.019);
+        assertThat(Collections.min(result)).isLessThan(TRESHHOLD);
     }
 
     @Test
     void checkSimilarity() {
         List<String> fingerprintNames = new ArrayList<>();
         List<String> trafficPatternNames = new ArrayList<>();
+        List<Integer> segmentLenghts = new ArrayList<>();
 
-        fingerprintNames.add("bbb_ohne_audio");
-        fingerprintNames.add("cat");
         fingerprintNames.add("james");
+        fingerprintNames.add("kovac");
+        fingerprintNames.add("jimmy");
 
-        trafficPatternNames.add("bigbugbunny.csv");
-        trafficPatternNames.add("cat.csv");
         trafficPatternNames.add("james.csv");
+        trafficPatternNames.add("kovac.csv");
+        trafficPatternNames.add("jimmy.csv");
 
-        SimilarityChecker checker = new SimilarityChecker(fingerprintNames, trafficPatternNames, 6, 20000);
+
+        segmentLenghts.add(5);
+        segmentLenghts.add(6);
+        segmentLenghts.add(5);
+
+        SimilarityChecker checker = new SimilarityChecker(fingerprintNames, trafficPatternNames, segmentLenghts, 20000);
 
         List<List<Double>> result = checker.calculateSimularity();
 
         assertThat(result.get(0).get(0)).
                 as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(0), trafficPatternNames.get(0))
-                .isLessThan(0.019);
+                .isLessThan(TRESHHOLD);
         assertThat(result.get(0).get(1)).as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(0), trafficPatternNames.get(1))
-                .isGreaterThan(0.019);
+                .isGreaterThan(TRESHHOLD);
         assertThat(result.get(0).get(2)).as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(0), trafficPatternNames.get(2))
-                .isGreaterThan(0.019);
+                .isGreaterThan(TRESHHOLD);
 
         assertThat(result.get(1).get(0)).
                 as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(1), trafficPatternNames.get(0))
-                .isGreaterThan(0.019);
+                .isGreaterThan(TRESHHOLD);
         assertThat(result.get(1).get(1)).
                 as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(1), trafficPatternNames.get(1))
-                .isLessThan(0.019);
+                .isLessThan(TRESHHOLD);
         assertThat(result.get(1).get(2)).
                 as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(1), trafficPatternNames.get(2))
-                .isGreaterThan(0.019);
+                .isGreaterThan(TRESHHOLD);
 
 
         assertThat(result.get(2).get(0)).
                 as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(2), trafficPatternNames.get(0))
-                .isGreaterThan(0.019);
+                .isGreaterThan(TRESHHOLD);
         assertThat(result.get(2).get(1)).
                 as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(2), trafficPatternNames.get(1))
-                .isLessThan(0.019);
+                .isGreaterThan(TRESHHOLD);
         assertThat(result.get(2).get(2)).
                 as("%s Fingerprint compare with %s Trafficpattern", fingerprintNames.get(2), trafficPatternNames.get(2))
-                .isGreaterThan(0.019);
+                .isLessThan(TRESHHOLD);
 
     }
+
+
+    @Test
+    void checkSimilarityFingerprints() {
+
+        for (int k = 1; k <= 8; k++) {
+
+            List<Double> fingerprintAliasTrafficPattern1 = Utils.generateFingerprint("kovac", k);
+            List<Double> fingerprint2 = Utils.generateFingerprint("james_30fps", k);
+            List<Double> subseqenz;
+            List<Double> result = new ArrayList<>();
+
+            for (int i = 0; i < fingerprint2.size(); i++) {
+                for (int j = i; j < fingerprint2.size(); j++) {
+                    subseqenz = fingerprint2.subList(i, j + 1);
+                    result.add(Utils.partialMatchingPdtwForTesing(fingerprint2, fingerprintAliasTrafficPattern1, subseqenz));
+                }
+            }
+            //assertThat(Collections.min(result)).isEqualTo(0.0);
+            System.out.println(Collections.min(result));
+        }
+    }
+
 
     @Test
     void newTest() {
