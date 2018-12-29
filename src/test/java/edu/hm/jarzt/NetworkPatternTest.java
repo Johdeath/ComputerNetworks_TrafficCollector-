@@ -24,7 +24,6 @@ class NetworkPatternTest {
                 .containsExactly(720L, 453L, 1718L, 1025L, 883L, 279L, 1104L, 441L, 479L);
     }
 
-
     @Test
     void aggregatesNetworkTrafficEven() {
         File file = new File(System.getProperty("user.dir") + File.separator + "trafficPattern" + File.separator + "trafficPattern01Even.csv");
@@ -87,8 +86,6 @@ class NetworkPatternTest {
                 .containsExactly(34354L, 27808L, 226974L, 241565L, 180024L, 143101L, 211129L, 124263L, 274893L, 194189L);
     }
 
-
-
     @Test
     void generateFingerprintTest() {
         List<Long> listA = new ArrayList<>();
@@ -140,7 +137,6 @@ class NetworkPatternTest {
 
         assertThat(Utils.partialMatchingPdtw(list1, list2)).isEqualTo(0.0);
     }
-
 
     @Test
     void compareTwoEqualFingerprintsShouldReturnZero() {
@@ -210,9 +206,6 @@ class NetworkPatternTest {
         assertThat(Collections.min(result)).isLessThan(THRESHOLD);
     }
 
-
-
-
     @Test
     void checkSimilarityOfAllCombinations() {
         List<String> fingerprintNames = new ArrayList<>();
@@ -267,10 +260,8 @@ class NetworkPatternTest {
 
     }
 
-
     @Test
     void checkSimilarityBetweenSameFingerprints() {
-
         for (int k = 1; k <= 8; k++) {
             List<Double> fingerprintAliasTrafficPattern1 = Utils.generateFingerprint("kovac", k);
             List<Double> fingerprint2 = Utils.generateFingerprint("kovac", k);
@@ -286,26 +277,6 @@ class NetworkPatternTest {
             assertThat(Collections.min(result)).isEqualTo(0.0);
         }
     }
-
-
-    @Test
-    void newTest() {
-
-        File pathToVideoFiles = new File(System.getProperty("user.dir") + File.separator + "videos" + File.separator + "james" + File.separator);
-        List<File> videoFiles = Arrays.asList(Objects.requireNonNull(pathToVideoFiles.listFiles()));
-
-        List<Long> fingerPrintWithOneSecondSegments = Utils.getFileSizeInBytes(videoFiles);
-        List<Long> fingerPrintWithLSecondSegments = Utils.generateFingerPrintWithLSecondSegments(fingerPrintWithOneSecondSegments, 6);
-        List<Double> differentialFingerprint = Utils.differential(fingerPrintWithLSecondSegments);
-
-        File file = new File(System.getProperty("user.dir") + File.separator + "trafficPattern" + File.separator + "james30SecNew.csv");
-        Records records = new Records(file);
-        List<Long> traffic = records.aggregatesNetworkTraffic(2000, 6);
-        List<Double> differentialTraffic = Utils.differential(traffic);
-
-
-    }
-
 }
 
 

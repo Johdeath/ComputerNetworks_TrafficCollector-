@@ -150,7 +150,15 @@ public class Utils {
         List<File> videoFiles = Arrays.asList(Objects.requireNonNull(pathToVideoFiles.listFiles()));
 
         List<Long> fingerPrintWithOneSecondSegments = Utils.getFileSizeInBytes(videoFiles);
+
+
+        for (Long d : fingerPrintWithOneSecondSegments){
+            System.out.println(d);
+        }
+
         List<Long> fingerPrintWithLSecondSegments = Utils.generateFingerPrintWithLSecondSegments(fingerPrintWithOneSecondSegments, segmentLength);
+
+
 
        /* for (long value : fingerPrintWithLSecondSegments){
             System.out.println(value);
