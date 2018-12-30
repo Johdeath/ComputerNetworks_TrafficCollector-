@@ -33,14 +33,14 @@ public class SimilarityChecker {
         this.trafficpatternNames = trafficpatternNames;
     }
 
-    public List<List<Double>> calculateSimularity() {
+    public List<List<Double>> calculateSimilarity() {
         List<List<Double>> endResult = new ArrayList<>();
         int indexOuter = 0;
         for (String fingerprintName : finterprintNames) {
             List<Double> partResult = new ArrayList<>();
             int indexInner = 0;
-            for (String trafficpatternName : trafficpatternNames) {
-                List<Double> trafficPattern = Utils.generateTrafficPattern(trafficpatternName, threshold, segmentLenghts.get(indexInner));
+            for (String trafficPatternName : trafficpatternNames) {
+                List<Double> trafficPattern = Utils.generateTrafficPattern(trafficPatternName, threshold, segmentLenghts.get(indexInner));
                 List<Double> fingerprints = Utils.generateFingerprint(fingerprintName, segmentLenghts.get(indexOuter));
                 List<Double> subSequence;
                 List<Double> result = new ArrayList<>();
@@ -56,9 +56,7 @@ public class SimilarityChecker {
             }
             indexOuter++;
             endResult.add(partResult);
-
         }
-
         return endResult;
     }
 
