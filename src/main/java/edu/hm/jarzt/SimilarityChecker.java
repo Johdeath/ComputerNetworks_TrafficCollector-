@@ -42,17 +42,10 @@ public class SimilarityChecker {
             for (String trafficPatternName : trafficpatternNames) {
                 List<Double> trafficPattern = Utils.generateTrafficPattern(trafficPatternName, threshold, segmentLenghts.get(indexInner));
                 List<Double> fingerprints = Utils.generateFingerprint(fingerprintName, segmentLenghts.get(indexOuter));
-                List<Double> subSequence;
-                List<Double> result = new ArrayList<>();
 
-                for (int i = 0; i < fingerprints.size(); i++) {
-                    for (int j = i; j < fingerprints.size(); j++) {
-                        subSequence = fingerprints.subList(i, j + 1);
-                        result.add(Utils.partialMatchingPdtwForTesing(fingerprints, trafficPattern, subSequence));
-                    }
-                }
+                partResult.add(Utils.partialMatchingPdtw(fingerprints, trafficPattern));
+
                 indexInner++;
-                partResult.add(Collections.min(result));
             }
             indexOuter++;
             endResult.add(partResult);
