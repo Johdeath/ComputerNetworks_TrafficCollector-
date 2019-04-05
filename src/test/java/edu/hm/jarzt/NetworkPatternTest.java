@@ -170,8 +170,7 @@ class NetworkPatternTest {
     void compareJames720pFingerprintWithJames720pPattern() {
         List<Double> query = Utils.generateTrafficPattern("james.csv", 20000, 5);
         List<Double> template = Utils.generateFingerprint("james_720p", 5);
-        List<Double> subSequence;
-        List<Double> result = new ArrayList<>();
+
 
 /*        for (Double d : template) {
             System.out.println(d);
@@ -182,14 +181,14 @@ class NetworkPatternTest {
 
     @Test
     void compareCake480pFingerprintWithCake480pPattern() {
-        List<Double> query = Utils.generateTrafficPattern("cake480p.csv", 20000, 5);
+        List<Double> query = Utils.generateTrafficPattern("cake480p_uncut.csv", 20000, 5);
         List<Double> template = Utils.generateFingerprint("cake_480p", 5);
-/*
 
-        for (Double d : template) {
+
+     /*   for (Double d : query) {
             System.out.println(d);
-        }
-*/
+        }*/
+
 
         assertThat(Utils.partialMatchingPdtw(template, query)).isLessThan(THRESHOLD);
     }
@@ -199,12 +198,11 @@ class NetworkPatternTest {
 
     @Test
     void compareCake720pFingerprintWithCake720pPattern() {
-        List<Double> query = Utils.generateTrafficPattern("cake720p.csv", 20000, 5);
+        List<Double> query = Utils.generateTrafficPattern("cake720p_uncut.csv", 20000, 5);
         List<Double> template = Utils.generateFingerprint("cake_720p", 5);
-        List<Double> subSequence;
-        List<Double> result = new ArrayList<>();
 
-  /*      for (Double d : template) {
+
+     /* for (Double d : query) {
             System.out.println(d);
         }*/
 
